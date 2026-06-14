@@ -5,10 +5,10 @@ I like close to default configurations. This might change in the future. Most of
 
 ### Commands
 ```bash
-sh -c "$(curl -fsLS https://get.chezmoi.io/lb)" -- init --apply alanmcilwaine # Linux/MacOS
-iex "&{$(irm 'https://get.chezmoi.io/ps1')} -- init --apply alanmcilwaine"    # Windows
+# Install https://www.chezmoi.io/install/ as a prerequisite using your favourite package manager.
 
-chezmoi update                                                                # Pull latest dots
+chezmoi init --apply alanmcilwaine # Setup
+chezmoi update                     # Pull latest dots
 ```
 
 
