@@ -1,0 +1,12 @@
+# Technical nouns and domain phrases for check.js.
+# One phrase per line, case-insensitive. Multi-word phrases match before the
+# dictionary, so their component words never trigger flags.
+# Add your project and company terms here. STE calls these "technical nouns".
+# Lines starting with # are comments.
+
+power supply
+status code
+api endpoint
+network port
+config file
+on-call
