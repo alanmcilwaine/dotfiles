@@ -4,6 +4,12 @@ brew "gh"
 brew "pi-coding-agent"
 brew "neovim"
 brew "tmux"
+brew "gum"
+brew "go"
+brew "rust"
+brew "java"
+brew "just"
+
 
 cask "1password"
 cask "codex"

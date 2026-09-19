@@ -1,0 +1,29 @@
+set default-list
+
+# Keep the justfile thin and readable.
+# Use it to expose tasks and orchestrate scripts.
+# Move substantial logic into dedicated scripts.
+
+# Show available tasks.
+help:
+    @just --list
+
+# Run the main bootstrap flow.
+bootstrap:
+    gum style --border rounded --padding '0 1' --bold 'Running bootstrap'
+    ./scripts/bootstrap.sh
+
+# Validate shell scripts.
+lint:
+    shellcheck -s bash ./scripts/*.sh
+
+# Run all routine checks.
+check: lint
+
+# Example task with an argument.
+run target:
+    gum style --foreground 12 "Running target: {{target}}"
+    ./scripts/run.sh "{{target}}"
+
+# If cross-platform shell behaviour differs, prefer separate recipes
+# or explicit shell settings rather than clever inline branching.

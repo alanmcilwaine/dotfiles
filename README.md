@@ -6,8 +6,8 @@ Skills go in .agents/skills.
 
 ### Commands
 ```bash
-# Install brew from the official page.
-brew bundle install
+brew bundle install                
 chezmoi init --apply alanmcilwaine # Setup
 chezmoi update                     # Pull latest dots
+./scripts/menu.sh                  # Open the interactive dotfiles menu
 ```

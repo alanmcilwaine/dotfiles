@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Forest Green and Off-White",
+  "version": "1.0.1",
+  "description": "Muted forest green tabs with a warm cream toolbar and selected tab.",
+  "theme": {
+    "properties": {
+      "ntp_logo_alternate": 0
+    },
+    "colors": {
+      "frame": [69, 91, 61],
+      "frame_inactive": [69, 91, 61],
+      "background_tab": [69, 91, 61],
+      "background_tab_inactive": [69, 91, 61],
+      "tab_background_text": [246, 244, 235],
+      "tab_background_text_inactive": [246, 244, 235],
+      "tab_text": [42, 54, 38],
+      "toolbar": [246, 244, 235],
+      "toolbar_text": [42, 54, 38],
+      "toolbar_button_icon": [69, 91, 61],
+      "bookmark_text": [42, 54, 38],
+      "omnibox_background": [237, 235, 225],
+      "omnibox_text": [42, 54, 38],
+      "ntp_background": [246, 244, 235],
+      "ntp_text": [42, 54, 38],
+      "ntp_link": [69, 91, 61]
+    }
+  }
+}
