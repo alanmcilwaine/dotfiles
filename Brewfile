@@ -1,5 +1,11 @@
 brew "node"
 brew "chezmoi"
 brew "gh"
+brew "pi-coding-agent"
+brew "neovim"
+brew "tmux"
 
 cask "1password"
+cask "codex"
+cask "google-chrome"
+cask "firefox"
