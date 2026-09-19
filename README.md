@@ -1,16 +1,13 @@
 # dotfiles
 
+I like close to default configurations. This might change in the future. Most of these dots will only really work on MacOS until I can be bothered to support WSL/Ubuntu
 
-I like close to default configurations. This might change in the future. Most of these dots are for alacritty, tmux, nvim.
+Skills go in .agents/skills.
 
 ### Commands
 ```bash
-# Install https://www.chezmoi.io/install/ as a prerequisite using your favourite package manager.
-
+# Install brew from the official page.
+brew bundle install
 chezmoi init --apply alanmcilwaine # Setup
 chezmoi update                     # Pull latest dots
 ```
-
-
-### Related Repos
-[This is my Pi configuration](https://github.com/alanmcilwaine/pi-dotfiles)
