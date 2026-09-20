@@ -1,0 +1,80 @@
+{
+  "profiles" : [
+    {
+      "id" : "284A34B4-2952-4160-95A1-E9E60A08428E",
+      "name" : "Default",
+      "workspaces" : [
+        {
+          "apps" : [
+            {
+              "autoOpen" : true,
+              "bundleIdentifier" : "com.google.Chrome",
+              "iconPath" : "/Applications/Google Chrome.app/Contents/Resources/app.icns",
+              "name" : "Google Chrome"
+            }
+          ],
+          "display" : "Built-in Retina Display",
+          "id" : "18FA31EA-09F0-4858-9B3D-83B972E8E0BC",
+          "name" : "Browser",
+          "openAppsOnActivation" : true,
+          "shortcut" : "opt+1",
+          "symbolIconName" : "safari"
+        },
+        {
+          "apps" : [
+            {
+              "autoOpen" : true,
+              "bundleIdentifier" : "com.hnc.Discord",
+              "iconPath" : "/Applications/Discord.app/Contents/Resources/electron.icns",
+              "name" : "Discord"
+            }
+          ],
+          "display" : "Built-in Retina Display",
+          "id" : "53423504-B531-4BF7-967B-B1094D3E99B5",
+          "name" : "Discord",
+          "openAppsOnActivation" : true,
+          "shortcut" : "opt+2",
+          "symbolIconName" : "message"
+        },
+        {
+          "apps" : [
+            {
+              "autoOpen" : true,
+              "bundleIdentifier" : "dev.zed.Zed",
+              "iconPath" : "/Applications/Zed.app/Contents/Resources/Zed.icns",
+              "name" : "Zed"
+            },
+            {
+              "autoOpen" : true,
+              "bundleIdentifier" : "com.apple.Terminal",
+              "iconPath" : "/System/Applications/Utilities/Terminal.app/Contents/Resources/Terminal.icns",
+              "name" : "Terminal"
+            }
+          ],
+          "display" : "Built-in Retina Display",
+          "id" : "7A574B80-C43F-47F4-A55E-9DD2BEBAD409",
+          "name" : "Coding",
+          "openAppsOnActivation" : true,
+          "shortcut" : "opt+3",
+          "symbolIconName" : "apple.terminal"
+        },
+        {
+          "apps" : [
+            {
+              "autoOpen" : true,
+              "bundleIdentifier" : "com.apple.finder",
+              "iconPath" : "/System/Library/CoreServices/Finder.app/Contents/Resources/Finder.icns",
+              "name" : "Finder"
+            }
+          ],
+          "display" : "Built-in Retina Display",
+          "id" : "10EF1150-4942-4C6A-9D76-749E69A88884",
+          "name" : "Finder",
+          "openAppsOnActivation" : true,
+          "shortcut" : "opt+4",
+          "symbolIconName" : "document"
+        }
+      ]
+    }
+  ]
+}
