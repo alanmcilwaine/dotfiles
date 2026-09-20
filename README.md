@@ -10,4 +10,6 @@ brew bundle install
 chezmoi init --apply alanmcilwaine # Setup
 chezmoi update                     # Pull latest dots
 ./scripts/menu.sh                  # Open the interactive dotfiles menu
+
+# To modify the cursor, download MaCursor, and drag/drop the cursor file in there
 ```
