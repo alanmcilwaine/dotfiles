@@ -1,0 +1,26 @@
+# Warm olive background, cream text, and sage-green accents.
+background = #252820
+foreground = #e6dfc8
+cursor-color = #a7b985
+cursor-text = #252820
+selection-background = #455b3d
+selection-foreground = #f6f4eb
+
+# Standard ANSI colors retain distinct meanings for errors, warnings, and links.
+palette = 0=#34392e
+palette = 1=#ce887b
+palette = 2=#a7b985
+palette = 3=#cbbb83
+palette = 4=#92aaa2
+palette = 5=#b39eaf
+palette = 6=#9cb8a0
+palette = 7=#d7d0ba
+
+palette = 8=#909580
+palette = 9=#e5a092
+palette = 10=#bed09b
+palette = 11=#dfcf9b
+palette = 12=#abc3bb
+palette = 13=#cbb6c7
+palette = 14=#b5d0b8
+palette = 15=#f6f4eb

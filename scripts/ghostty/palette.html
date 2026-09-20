@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forest Cream · Ghostty palette</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 48px 24px; background: #e9e3d3; color: #2a3626; font: 16px/1.6 system-ui, sans-serif; }
+  main { max-width: 1040px; margin: auto; }
+  h1 { margin: 0; font: 500 46px/1.2 Georgia, serif; }
+  p { max-width: 720px; }
+  .controls { display: flex; gap: 10px; margin: 24px 0; flex-wrap: wrap; }
+  button { border: 1px solid #88947b; border-radius: 8px; padding: 10px 16px; color: inherit; background: transparent; font: inherit; cursor: pointer; }
+  button[aria-pressed="true"] { background: #455b3d; color: #f6f4eb; }
+  .terminal { --bg: #252820; --fg: #e6dfc8; --green: #a7b985; --muted: #909580; --red: #ce887b; --yellow: #cbbb83; --blue: #92aaa2; --purple: #b39eaf; --cyan: #9cb8a0; background: var(--bg); color: var(--fg); border-radius: 12px; overflow: hidden; box-shadow: 0 18px 40px #25282024; font: 14px/1.8 'MonoLisa Nerd Font', 'MonoLisa', monospace; }
+  .titlebar { padding: 12px 18px; border-bottom: 1px solid var(--muted); color: var(--muted); }
+  .panes { display: grid; grid-template-columns: 1.3fr 1fr; min-height: 310px; }
+  pre { margin: 0; padding: 24px; overflow: auto; font: inherit; }
+  pre + pre { border-left: 1px solid var(--green); }
+  .green { color: var(--green); } .muted { color: var(--muted); }
+  .red { color: var(--red); } .yellow { color: var(--yellow); }
+  .blue { color: var(--blue); } .purple { color: var(--purple); } .cyan { color: var(--cyan); }
+  .status { padding: 4px 18px; background: var(--bg); color: var(--green); display: flex; justify-content: space-between; }
+  .active-window { padding: 2px 8px; background: var(--fg); color: var(--bg); font-weight: bold; }
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 28px; }
+  .swatch { overflow: hidden; background: #f6f4eb; border-radius: 8px; }
+  .chip { height: 62px; }
+  .label { padding: 10px 14px; font-size: 13px; }
+  .label code { display: block; opacity: .8; }
+  .note { font-size: 14px; }
+  @media(max-width: 720px) { .panes { grid-template-columns: 1fr; } pre + pre { border-left: 0; border-top: 1px solid var(--green); } .swatches { grid-template-columns: repeat(2, 1fr); } h1 { font-size: 36px; } }
+</style>
+<main>
+  <h1>Forest Cream</h1>
+  <p>A warm olive terminal with cream text and sage-green accents. The forest-green selection and lightest cream come directly from your Chrome theme.</p>
+  <div class="controls" aria-label="Palette preview">
+    <button id="dark" aria-pressed="true">Dark olive · configured</button>
+    <button id="light" aria-pressed="false">Cream · alternative concept</button>
+  </div>
+  <section class="terminal" aria-label="Illustrative terminal and tmux preview">
+    <div class="titlebar">Ghostty / MonoLisa Nerd Font / tmux</div>
+    <div class="panes">
+      <pre><span class="green">alan</span> <span class="blue">~/projects/forest</span> <span class="muted">main</span>
+<span class="green">❯</span> git status --short
+ <span class="yellow">M</span> config.ghostty
+ <span class="green">A</span> themes/Forest Cream
+
+<span class="green">❯</span> npm test
+<span class="green">✓</span> palette loads
+<span class="green">✓</span> colors remain distinct
+
+<span class="yellow">warning</span> example warning
+<span class="red">error</span>   example error
+<span class="green">❯ ▋</span></pre>
+      <pre><span class="muted">// Sample syntax colors</span>
+<span class="purple">const</span> theme = {
+  name: <span class="green">"Forest Cream"</span>,
+  background: <span class="green">"olive"</span>,
+  contrast: <span class="yellow">7.5</span>,
+};
+
+<span class="purple">function</span> <span class="blue">greet</span>(name) {
+  <span class="purple">return</span> <span class="green">`Hello, ${name}`</span>;
+}
+
+<span class="cyan">console</span>.<span class="blue">log</span>(greet(<span class="green">"Alan"</span>));</pre>
+    </div>
+    <div class="status"><span>[work] <span class="active-window">0:zsh*</span> <span class="muted">1:editor</span></span><span>17:45</span></div>
+  </section>
+  <div class="swatches" id="swatches"></div>
+  <p class="note" id="caption">Dark olive is the configured palette. This is an illustrative mockup; editors may use their own syntax theme.</p>
+  <p class="note">The buttons only change this preview. They do not change Ghostty's configuration.</p>
+</main>
+<script>
+const palettes = {
+  dark: { bg: '#252820', fg: '#e6dfc8', green: '#a7b985', muted: '#909580', red: '#ce887b', yellow: '#cbbb83', blue: '#92aaa2', purple: '#b39eaf', cyan: '#9cb8a0', selection: '#455b3d' },
+  light: { bg: '#f6f4eb', fg: '#2a3626', green: '#455b3d', muted: '#69725e', red: '#a04f43', yellow: '#806b2f', blue: '#486962', purple: '#785c75', cyan: '#486b50', selection: '#455b3d' }
+};
+const labels = { bg: 'Background', fg: 'Text', green: 'Sage / green', muted: 'Comments', red: 'Errors', yellow: 'Warnings', blue: 'Blue', purple: 'Purple', cyan: 'Cyan', selection: 'Chrome forest green' };
+function show(mode) {
+  const palette = palettes[mode];
+  const terminal = document.querySelector('.terminal');
+  for (const [key, value] of Object.entries(palette)) terminal.style.setProperty('--' + key, value);
+  document.querySelector('#swatches').replaceChildren(...Object.entries(palette).map(([key, value]) => {
+    const swatch = document.createElement('div');
+    swatch.className = 'swatch';
+    const chip = document.createElement('div'); chip.className = 'chip'; chip.style.background = value;
+    const label = document.createElement('div'); label.className = 'label'; label.textContent = labels[key];
+    const code = document.createElement('code'); code.textContent = value.toUpperCase(); label.append(code);
+    swatch.append(chip, label); return swatch;
+  }));
+  for (const name of ['dark', 'light']) document.getElementById(name).setAttribute('aria-pressed', String(name === mode));
+  document.querySelector('#caption').textContent = mode === 'dark'
+    ? 'Dark olive is the configured palette. This is an illustrative mockup; editors may use their own syntax theme.'
+    : 'A light alternative for comparison, not installed. Editors may use their own syntax theme.';
+}
+for (const mode of ['dark', 'light']) document.getElementById(mode).addEventListener('click', () => show(mode));
+show('dark');
+</script>
+</html>
