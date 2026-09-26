@@ -42,5 +42,5 @@ packages:
       - just
       - ripgrep
   npm:
-    - '@openai/codex'
-    - '@earendil-works/pi-coding-agent'
+    codex: '@openai/codex'
+    pi: '@earendil-works/pi-coding-agent'
