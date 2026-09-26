@@ -14,6 +14,7 @@ packages:
       - just
       - docker
       - ripgrep
+      - tlrc
     casks:
       - 1password
       - codex
@@ -41,6 +42,9 @@ packages:
       - java-latest-openjdk-devel
       - just
       - ripgrep
+      - tldr
+      - ghostty
+      - wl-clipboard
   npm:
     codex: '@openai/codex'
     pi: '@earendil-works/pi-coding-agent'

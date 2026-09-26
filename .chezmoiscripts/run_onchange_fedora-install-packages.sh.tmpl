@@ -3,7 +3,10 @@
 #!/bin/bash
 # Reference: https://www.chezmoi.io/user-guide/advanced/install-packages-declaratively/
 # Reference: https://www.chezmoi.io/user-guide/machines/linux/
+set -e
 
+sudo dnf install dnf5-plugins
+sudo dnf copr enable scottames/ghostty
 sudo dnf install{{ range .packages.fedora.dnf }} {{ . | quote }}{{ end }}
 {{ end -}}
 {{ end -}}
