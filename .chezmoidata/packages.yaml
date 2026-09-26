@@ -1,0 +1,46 @@
+# Reference: https://www.chezmoi.io/user-guide/advanced/install-packages-declaratively/
+packages:
+  darwin:
+    brews:
+      - node
+      - chezmoi
+      - gh
+      - neovim
+      - tmux
+      - gum
+      - go
+      - rust
+      - java
+      - just
+      - docker
+      - ripgrep
+    casks:
+      - 1password
+      - codex
+      - claude-code
+      - google-chrome
+      - flashspace
+      - discord
+      - tailscale-app
+      - ghostty
+      - docker-desktop
+      - jetbrains-toolbox
+      - zed
+  fedora:
+    dnf:
+      - nodejs
+      - nodejs-npm
+      - chezmoi
+      - gh
+      - neovim
+      - tmux
+      - gum
+      - golang
+      - rust
+      - cargo
+      - java-latest-openjdk-devel
+      - just
+      - ripgrep
+  npm:
+    - '@openai/codex'
+    - '@earendil-works/pi-coding-agent'

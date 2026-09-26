@@ -1,15 +1,15 @@
 # dotfiles
 
-I like close to default configurations. This might change in the future. Most of these dots will only really work on MacOS until I can be bothered to support WSL/Ubuntu
+I like close to default configurations. This might change in the future.
 
 Skills go in .agents/skills.
 
 ### Commands
 ```bash
-brew bundle install                
 chezmoi init --apply alanmcilwaine # Setup
-chezmoi update                     # Pull latest dots
-./scripts/menu.sh                  # Open the interactive dotfiles menu
+chezmoi apply                     # Apply packages and dots
+chezmoi update                    # Pull latest dots
+./scripts/menu.sh                 # Open the interactive dotfiles menu
 
 # To modify the cursor, download MaCursor, and drag/drop the cursor file in there
 ```

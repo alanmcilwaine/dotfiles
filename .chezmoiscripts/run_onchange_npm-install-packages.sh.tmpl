@@ -1,0 +1,10 @@
+{{ $supported := eq .chezmoi.os "darwin" -}}
+{{ if eq .chezmoi.os "linux" -}}
+{{ $supported = eq .chezmoi.osRelease.id "fedora" -}}
+{{ end -}}
+{{ if $supported -}}
+#!/bin/bash
+# Reference: https://www.chezmoi.io/user-guide/advanced/install-packages-declaratively/
+# Reference: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/
+npm install --global --prefix "$HOME/.local"{{ range .packages.npm }} {{ . | quote }}{{ end }}
+{{ end -}}
