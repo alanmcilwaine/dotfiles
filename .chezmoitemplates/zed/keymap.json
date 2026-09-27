@@ -1,14 +1,51 @@
 [
   {
-    "context": "Editor",
+    "context": "Workspace",
     "bindings": {
-      "shift-f10": [
-        "task::Rerun",
+      "ctrl-`": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !menu",
+    "bindings": {
+      "space r": "task::Spawn",
+      "space shift-r": "task::Spawn",
+      "space d": "debugger::Start",
+      "space b": "editor::ToggleBreakpoint"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && extension == go && !menu",
+    "bindings": {
+      "space r": [
+        "task::Spawn",
         {
-          "reevaluate_context": true
+          "task_name": "Run Go project"
         }
       ],
-      "alt-shift-f10": "task::Spawn"
+      "space shift-r": [
+        "task::Spawn",
+        {
+          "task_name": "Test Go project"
+        }
+      ]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && extension == py && !menu",
+    "bindings": {
+      "space r": [
+        "task::Spawn",
+        {
+          "task_name": "Run Python file"
+        }
+      ],
+      "space shift-r": [
+        "task::Spawn",
+        {
+          "task_name": "Test Python project"
+        }
+      ]
     }
   }
 ]

@@ -1,9 +1,25 @@
 README.md
-Brewfile
 scripts
 {{ if ne .chezmoi.os "windows" }}
 AppData/Roaming/Zed
 {{ end }}
 {{ if eq .chezmoi.os "windows" }}
 .config/zed
+{{ end }}
+
+{{ if ne .chezmoi.os "windows" }}
+AppData/Roaming/Code
+{{ end }}
+{{ if eq .chezmoi.os "windows" }}
+.config/Code
+Library/Application Support/Code
+{{ else if eq .chezmoi.os "darwin" }}
+.config/Code
+{{ else }}
+Library/Application Support/Code
+{{ end }}
+
+editor-keymaps.md
+{{ if ne .chezmoi.os "darwin" }}
+Library
 {{ end }}

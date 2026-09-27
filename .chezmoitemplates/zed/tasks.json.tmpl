@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Run Go project",
+    "command": "go",
+    "args": ["run", "."],
+    "save": "all"
+  },
+  {
+    "label": "Test Go project",
+    "command": "go",
+    "args": ["test", "./..."],
+    "save": "all"
+  },
+  {
+    "label": "Run Python file",
+    "command": "{{ if eq .chezmoi.os "windows" }}python{{ else }}python3{{ end }}",
+    "args": ["$ZED_FILE"],
+    "save": "current"
+  },
+  {
+    "label": "Test Python project",
+    "command": "{{ if eq .chezmoi.os "windows" }}python{{ else }}python3{{ end }}",
+    "args": ["-m", "pytest"],
+    "save": "all"
+  }
+]

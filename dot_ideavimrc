@@ -1,0 +1,6 @@
+" Shared Vim keys for GoLand and PyCharm.
+let mapleader = " "
+nmap <leader>r <Action>(Run)
+nmap <leader>R <Action>(RunAllTests)
+nmap <leader>d <Action>(Debug)
+nmap <leader>b <Action>(ToggleLineBreakpoint)

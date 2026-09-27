@@ -3,7 +3,7 @@
 # Reference: https://www.chezmoi.io/user-guide/advanced/install-packages-declaratively/
 set -euo pipefail
 
-brew bundle --file=/dev/stdin <<EOF
+brew bundle --file=- <<EOF
 {{ range .packages.darwin.brews -}}
 brew {{ . | quote }}
 {{ end -}}

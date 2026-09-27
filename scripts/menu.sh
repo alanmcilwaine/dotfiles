@@ -10,9 +10,13 @@ repo_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 cd -- "$repo_dir"
 
 gum style --bold 'Dotfiles'
+choices=('Dotfiles')
+if [[ $(uname -s) == Darwin ]]; then
+    choices+=('macOS settings')
+fi
 selections="$(gum choose --no-limit --selected='' \
     --header 'Choose what to apply' \
-    'Dotfiles' 'Packages' 'macOS settings')"
+    "${choices[@]}")"
 
 if [[ -z "$selections" ]]; then
     gum log --level info 'Nothing selected.'
@@ -25,9 +29,6 @@ while IFS= read -r selection; do
     case "$selection" in
         'Dotfiles')
             chezmoi --source "$repo_dir" apply
-            ;;
-        'Packages')
-            brew bundle install --file "$repo_dir/Brewfile" --no-upgrade
             ;;
         'macOS settings')
             bash "$repo_dir/scripts/macos.sh"
