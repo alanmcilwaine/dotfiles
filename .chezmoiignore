@@ -1,3 +1,9 @@
 README.md
 Brewfile
 scripts
+{{ if ne .chezmoi.os "windows" }}
+AppData/Roaming/Zed
+{{ end }}
+{{ if eq .chezmoi.os "windows" }}
+.config/zed
+{{ end }}

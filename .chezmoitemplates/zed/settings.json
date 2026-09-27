@@ -1,0 +1,12 @@
+{
+  "base_keymap": "JetBrains",
+  "edit_predictions": {
+    "provider": "none"
+  },
+  "diagnostics": {
+    "inline": {
+      "enabled": true,
+      "max_severity": "error"
+    }
+  }
+}

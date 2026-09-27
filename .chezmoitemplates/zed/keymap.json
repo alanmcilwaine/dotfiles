@@ -1,0 +1,14 @@
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      "shift-f10": [
+        "task::Rerun",
+        {
+          "reevaluate_context": true
+        }
+      ],
+      "alt-shift-f10": "task::Spawn"
+    }
+  }
+]
