@@ -1,0 +1,34 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+# Reference: https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/
+# local.caps-to-escape.plist hash: {{ include "Library/LaunchAgents/local.caps-to-escape.plist" | sha256sum }}
+# local.screenshot-clipboard.plist hash: {{ include "Library/LaunchAgents/local.screenshot-clipboard.plist.tmpl" | sha256sum }}
+# screenshot-clipboard.js hash: {{ include "Library/Application Support/dotfiles/screenshot-clipboard.js" | sha256sum }}
+set -euo pipefail
+
+# Trackpad tracking speed.
+defaults write NSGlobalDomain com.apple.trackpad.scaling -float 5.0
+
+# Show hidden files in Finder.
+defaults write com.apple.finder AppleShowAllFiles -bool true
+
+# Save screenshots to Desktop/Screenshots.
+# Keep the legacy keys for older macOS versions. macOS 27 uses the screenshot-specific keys.
+screenshots_dir="$HOME/Desktop/Screenshots"
+mkdir -p "$screenshots_dir" "$HOME/Library/Logs"
+defaults write com.apple.screencapture location -string "$screenshots_dir"
+defaults write com.apple.screencapture location-screenshot -string "$screenshots_dir"
+defaults write com.apple.screencapture target -string file
+defaults write com.apple.screencapture target-screenshot -string file
+defaults write com.apple.screencapture type -string png
+
+# (Re)load the launch agents. Caps Lock → Escape applies at load; the screenshot
+# helper copies new screenshots to the clipboard.
+launch_domain="gui/$(id -u)"
+for label in local.caps-to-escape local.screenshot-clipboard; do
+    if launchctl print "$launch_domain/$label" >/dev/null 2>&1; then
+        launchctl bootout "$launch_domain/$label"
+    fi
+    launchctl bootstrap "$launch_domain" "$HOME/Library/LaunchAgents/$label.plist"
+done
+{{ end -}}

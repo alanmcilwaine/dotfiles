@@ -6,10 +6,10 @@ Skills go in .agents/skills.
 
 ### Commands
 ```bash
-chezmoi init --apply alanmcilwaine # Setup
-chezmoi apply                     # Apply packages and dots
+# Please install Homebrew first (https://brew.sh)
+brew install chezmoi && chezmoi init --apply alanmcilwaine # Setup
+chezmoi apply                     # Apply packages, dots and macOS settings
 chezmoi update                    # Pull latest dots
-./scripts/menu.sh                 # Open the interactive dotfiles menu
 
 # To modify the cursor, download MaCursor, and drag/drop the cursor file in there
 ```

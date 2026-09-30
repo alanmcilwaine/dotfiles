@@ -9,6 +9,7 @@
         <string>/usr/bin/osascript</string>
         <string>-l</string>
         <string>JavaScript</string>
+        <string>{{ .chezmoi.homeDir }}/Library/Application Support/dotfiles/screenshot-clipboard.js</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
@@ -16,5 +17,7 @@
     <true/>
     <key>ThrottleInterval</key>
     <integer>10</integer>
+    <key>StandardErrorPath</key>
+    <string>{{ .chezmoi.homeDir }}/Library/Logs/screenshot-clipboard.log</string>
 </dict>
 </plist>

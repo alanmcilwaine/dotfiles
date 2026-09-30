@@ -1,5 +1,5 @@
 README.md
-scripts
+Brewfile
 {{ if ne .chezmoi.os "windows" }}
 AppData/Roaming/Zed
 {{ end }}
