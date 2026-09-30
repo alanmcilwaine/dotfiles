@@ -41,7 +41,6 @@ For GoLand and PyCharm, install the
 and select Gruvbox Dark Medium. Set Editor > Font to MonoLisa Nerd Font, size
 20, and Tools > Terminal font to the same values. IdeaVim manages only the Vim
 mappings; JetBrains stores appearance settings separately. Use JetBrains
-Backup and Sync to carry those settings between GoLand and PyCharm. In
-Settings > Editor > General > Code Completion > Inline, disable "Enable inline
-completion using language models" to hide full-line predictions while keeping
-ordinary code completion.
+Backup and Sync to carry those settings between GoLand and PyCharm. Keep
+Settings > Editor > General > Code Completion > Inline > "Enable inline
+completion using language models" on for full-line AI predictions.

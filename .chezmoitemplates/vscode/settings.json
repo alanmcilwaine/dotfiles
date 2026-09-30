@@ -4,8 +4,6 @@
   "editor.fontSize": 20,
   "terminal.integrated.fontFamily": "'MonoLisa Nerd Font', monospace",
   "terminal.integrated.fontSize": 20,
-  "editor.inlineSuggest.enabled": false,
-  "github.copilot.nextEditSuggestions.enabled": false,
   "vim.leader": " ",
   "vim.normalModeKeyBindingsNonRecursive": [
     {
