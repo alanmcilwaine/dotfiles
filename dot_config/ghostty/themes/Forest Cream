@@ -1,13 +1,13 @@
-# Warm olive background, cream text, and sage-green accents.
-background = #252820
+# Warm dark background, cream text, and sage-green accents.
+background = #1c1917
 foreground = #e6dfc8
 cursor-color = #a7b985
-cursor-text = #252820
+cursor-text = #1c1917
 selection-background = #455b3d
 selection-foreground = #f6f4eb
 
 # Standard ANSI colors retain distinct meanings for errors, warnings, and links.
-palette = 0=#34392e
+palette = 0=#2e2925
 palette = 1=#ce887b
 palette = 2=#a7b985
 palette = 3=#cbbb83
