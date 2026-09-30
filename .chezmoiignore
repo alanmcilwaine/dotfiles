@@ -19,7 +19,6 @@ Library/Application Support/Code
 Library/Application Support/Code
 {{ end }}
 
-editor-keymaps.md
 {{ if ne .chezmoi.os "darwin" }}
 Library
 {{ end }}
