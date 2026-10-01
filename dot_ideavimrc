@@ -4,3 +4,10 @@ nmap <leader>r <Action>(Run)
 nmap <leader>R <Action>(RunAllTests)
 nmap <leader>d <Action>(Debug)
 nmap <leader>b <Action>(ToggleLineBreakpoint)
+
+" Go to definition and back again, like Vim's Ctrl-] / Ctrl-T tag jumps.
+sethandler <C-t> a:vim
+sethandler <C-]> a:vim
+nmap <leader>gd <Action>(GotoDeclaration)
+nmap <C-]> <Action>(GotoDeclaration)
+nmap <C-t> <Action>(Back)

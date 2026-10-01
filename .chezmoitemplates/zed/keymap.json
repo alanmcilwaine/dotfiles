@@ -11,7 +11,10 @@
       "space r": "task::Spawn",
       "space shift-r": "task::Spawn",
       "space d": "debugger::Start",
-      "space b": "editor::ToggleBreakpoint"
+      "space b": "editor::ToggleBreakpoint",
+      "space g d": "editor::GoToDefinition",
+      "ctrl-]": "editor::GoToDefinition",
+      "ctrl-t": "pane::GoBack"
     }
   },
   {

@@ -41,6 +41,24 @@
       "commands": [
         "editor.debug.action.toggleBreakpoint"
       ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "g",
+        "d"
+      ],
+      "commands": [
+        "editor.action.revealDefinition"
+      ]
+    },
+    {
+      "before": [
+        "<C-t>"
+      ],
+      "commands": [
+        "workbench.action.navigateBack"
+      ]
     }
   ]
 }
