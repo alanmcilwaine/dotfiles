@@ -1,0 +1,6 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $config := fromToml .chezmoi.stdin -}}
+{{- $sandbox := get $config "sandbox_workspace_write" | default dict -}}
+{{- $roots := get $sandbox "writable_roots" | default list -}}
+{{- $roots = append $roots (joinPath .chezmoi.homeDir "wiki") | uniq -}}
+{{- $config | setValueAtPath "sandbox_workspace_write.writable_roots" $roots | toToml -}}

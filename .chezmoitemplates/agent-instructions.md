@@ -29,3 +29,10 @@ Design-time defaults. Apply when architecting, scoping or reviewing a system:
 - The product is the entire lifecycle. Includes tooling, pipelines, monitoring, runbooks.
 - Deployment is a product capability. Works on-prem, private cloud and public cloud.
 - Ease of data access over data silos. Accessible data is valuable data.
+
+
+## Extras
+
+Please don't modify the README. They should be human written.
+
+Thank you for collaborating and listening to my feedback and instructions.
