@@ -10,7 +10,7 @@
   "cornerHiddenApps" : [
 
   ],
-  "displayMode" : "static",
+  "displayMode" : "dynamic",
   "enableFocusManagement" : false,
   "enableIntegrations" : false,
   "enablePictureInPictureSupport" : true,
@@ -58,7 +58,7 @@
   "swipeUp4FingerAction" : "none",
   "switchWorkspaceOnCursorScreen" : false,
   "switchWorkspaceWhenPipCloses" : true,
-  "unassignFocusedApp" : "ctrl+opt+5",
+  "unassignFocusedApp" : "opt+0",
   "workspaceSwitcherCurrentDisplayWorkspaces" : true,
   "workspaceSwitcherShowScreenshots" : true,
   "workspaceSwitcherSortByLastActivation" : false,
