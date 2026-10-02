@@ -6,8 +6,8 @@
 # screenshot-clipboard.js hash: {{ include "Library/Application Support/dotfiles/screenshot-clipboard.js" | sha256sum }}
 set -euo pipefail
 
-# Trackpad tracking speed.
-defaults write NSGlobalDomain com.apple.trackpad.scaling -float 5.0
+# Disable the press-and-hold accent menu.
+defaults write -g ApplePressAndHoldEnabled 0
 
 # Show hidden files in Finder.
 defaults write com.apple.finder AppleShowAllFiles -bool true
