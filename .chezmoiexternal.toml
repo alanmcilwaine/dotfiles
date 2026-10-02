@@ -12,3 +12,9 @@
     type = "git-repo"
     url = "https://github.com/tmux-plugins/tmux-continuum.git"
     refreshPeriod = "168h"
+
+[".agents/skills/karpathy-llm-wiki"]
+    type = "archive"
+    url = "https://github.com/Astro-Han/karpathy-llm-wiki/archive/refs/heads/main.tar.gz"
+    stripComponents = 1
+    refreshPeriod = "168h"
