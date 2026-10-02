@@ -73,6 +73,16 @@
           "openAppsOnActivation" : true,
           "shortcut" : "opt+4",
           "symbolIconName" : "document"
+        },
+        {
+          "apps" : [],
+          "assignAppShortcut" : "opt+shift+5",
+          "display" : "Built-in Retina Display",
+          "id" : "B0FFE5A5-5E1A-4C3B-9F2D-6A7E8C9D0B15",
+          "name" : "Buffer",
+          "openAppsOnActivation" : false,
+          "shortcut" : "opt+5",
+          "symbolIconName" : "tray"
         }
       ]
     }
