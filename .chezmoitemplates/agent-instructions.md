@@ -6,6 +6,10 @@
 - Don't add `Co-Authored-By` trailers to commits. They are noise in repositories.
 - Always consult my knowledge wiki at `~/wiki`. It is the best entrypoint for context on my work, tooling, opinions and me.
 
+## Personal learning
+
+I am still a junior developer. So much of what we learn, I will be inquisitive. Please learn what I am learning, and add what I've learnt to the wiki, as a reference for future spaced repetition. The reason we do this is so I can commit our learning to long-term memory, and review.
+
 ## Engineering principles
 
 Always-on engineering conduct. These govern every task:
