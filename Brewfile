@@ -12,6 +12,8 @@ brew "rust"
 brew "java"
 brew "docker"
 brew "pi-coding-agent"
+brew "golangci-lint"
+brew "chrome-devtools-mcp"
 brew "wl-clipboard" if OS.linux?
 
 cask "codex"
