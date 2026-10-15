@@ -1,0 +1,2 @@
+alias clauded='claude --dangerously-skip-permissions'
+alias clean='lsof -ti tcp:8080 -sTCP:LISTEN | xargs kill'

@@ -2,17 +2,46 @@
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-`": "terminal_panel::ToggleFocus"
+      "ctrl-`": "terminal_panel::ToggleFocus",
+      "secondary-shift-a": "agent::ToggleFocus",
+      "ctrl-b %": "pane::SplitRight",
+      "ctrl-b \"": "pane::SplitDown",
+      "ctrl-b x": "pane::CloseActiveItem",
+      "ctrl-b z": "workspace::ToggleZoom",
+      "ctrl-b o": "workspace::ActivateNextPane",
+      "ctrl-b left": "workspace::ActivatePaneLeft",
+      "ctrl-b right": "workspace::ActivatePaneRight",
+      "ctrl-b up": "workspace::ActivatePaneUp",
+      "ctrl-b down": "workspace::ActivatePaneDown",
+      "ctrl-b n": "pane::ActivateNextItem",
+      "ctrl-b p": "pane::ActivatePreviousItem",
+      "ctrl-b 0": ["pane::ActivateItem", 0],
+      "ctrl-b 1": ["pane::ActivateItem", 1],
+      "ctrl-b 2": ["pane::ActivateItem", 2],
+      "ctrl-b 3": ["pane::ActivateItem", 3],
+      "ctrl-b 4": ["pane::ActivateItem", 4],
+      "ctrl-b 5": ["pane::ActivateItem", 5],
+      "ctrl-b 6": ["pane::ActivateItem", 6],
+      "ctrl-b 7": ["pane::ActivateItem", 7],
+      "ctrl-b 8": ["pane::ActivateItem", 8],
+      "ctrl-b 9": ["pane::ActivateItem", 9]
     }
   },
   {
     "context": "Editor && vim_mode == normal && !menu",
     "bindings": {
-      "space r": "task::Spawn",
-      "space shift-r": "task::Spawn",
-      "space d": "debugger::Start",
-      "space b": "editor::ToggleBreakpoint",
+      "space o o": "task::Spawn",
+      "space t shift-t": "task::Spawn",
+      "space t r": "editor::SpawnNearestTask",
+      "space t l": "task::Rerun",
+      "space d c": "debugger::Start",
+      "space d b": "editor::ToggleBreakpoint",
       "space g d": "editor::GoToDefinition",
+      "space p e": "project_panel::ToggleFocus",
+      "space p o": "outline_panel::ToggleFocus",
+      "space p a": "agent::ToggleFocus",
+      "space p t": "multi_workspace::ToggleWorkspaceSidebar",
+      "space g w": "git::Worktree",
       "ctrl-]": "editor::GoToDefinition",
       "ctrl-t": "pane::GoBack"
     }
@@ -20,13 +49,13 @@
   {
     "context": "Editor && vim_mode == normal && extension == go && !menu",
     "bindings": {
-      "space r": [
+      "space o o": [
         "task::Spawn",
         {
           "task_name": "Run Go project"
         }
       ],
-      "space shift-r": [
+      "space t shift-t": [
         "task::Spawn",
         {
           "task_name": "Test Go project"
@@ -37,13 +66,13 @@
   {
     "context": "Editor && vim_mode == normal && extension == py && !menu",
     "bindings": {
-      "space r": [
+      "space o o": [
         "task::Spawn",
         {
           "task_name": "Run Python file"
         }
       ],
-      "space shift-r": [
+      "space t shift-t": [
         "task::Spawn",
         {
           "task_name": "Test Python project"

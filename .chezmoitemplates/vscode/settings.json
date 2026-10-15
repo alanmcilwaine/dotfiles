@@ -1,7 +1,7 @@
 {
   "workbench.colorTheme": "Gruvbox Dark Medium",
   "editor.fontFamily": "'MonoLisa Nerd Font', monospace",
-  "editor.fontSize": 20,
+  "editor.fontSize": 17,
   "terminal.integrated.fontFamily": "'MonoLisa Nerd Font', monospace",
   "terminal.integrated.fontSize": 20,
   "vim.leader": " ",
@@ -60,5 +60,12 @@
         "workbench.action.navigateBack"
       ]
     }
-  ]
+  ],
+{{- if hasKey . "copilotEnterpriseUri" }}
+  "github-enterprise.uri": {{ .copilotEnterpriseUri | quote }},
+  "github.copilot.advanced": {
+    "authProvider": "github-enterprise"
+  },
+{{- end }}
+  "go.lintTool": "golangci-lint-v2"
 }

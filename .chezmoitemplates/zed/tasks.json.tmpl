@@ -1,4 +1,5 @@
 [
+{{- if eq .chezmoi.os "windows" }}
   {
     "label": "Run Go project",
     "command": "go",
@@ -11,6 +12,20 @@
     "args": ["test", "./..."],
     "save": "all"
   },
+{{- else }}
+  {
+    "label": "Run Go project",
+    "command": "if just --summary 2>/dev/null | tr ' ' '\\n' | grep -qx run; then just run; else go run .; fi",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
+  },
+  {
+    "label": "Test Go project",
+    "command": "if just --summary 2>/dev/null | tr ' ' '\\n' | grep -qx test; then just test; else go test ./...; fi",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "save": "all"
+  },
+{{- end }}
   {
     "label": "Run Python file",
     "command": "{{ if eq .chezmoi.os "windows" }}python{{ else }}python3{{ end }}",
