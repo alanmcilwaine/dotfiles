@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# Stop hook: run the project's checks before the agent may finish.
+# Exit 2 blocks the stop and sends stderr back to the agent.
+set -euo pipefail
+
+source "${BASH_SOURCE[0]%/*}/lib.sh"
+require_command jq
+
+readonly MAX_BLOCKS=3
+readonly OUTPUT_LINES=60
+
+# Hash the commit, the uncommitted changes and the untracked files, so the
+# checks run once for each distinct state of the working tree. A repository
+# with no commit yet is identified by its untracked files alone.
+working_tree_fingerprint() {
+    local dir="$1"
+    {
+        git -C "$dir" rev-parse --verify HEAD
+        git -C "$dir" diff HEAD
+        git -C "$dir" ls-files --others --exclude-standard
+        (cd "$dir" && git ls-files --others --exclude-standard | git hash-object --stdin-paths)
+    } 2>/dev/null | shasum -a 256 | cut -d ' ' -f 1
+}
+
+input="$(cat)"
+project_dir="$(hook_field "$input" cwd)"
+session_id="$(hook_field "$input" session_id)"
+[[ -n "$project_dir" ]] || { echo "stop-gate: hook input has no cwd" >&2; exit 1; }
+[[ -n "$session_id" ]] || { echo "stop-gate: hook input has no session_id" >&2; exit 1; }
+
+overlay="$(overlay_dir "$project_dir")" || exit 0
+checks="$overlay/checks.sh"
+[[ -e "$checks" ]] || exit 0
+
+fingerprint="$(working_tree_fingerprint "$project_dir")"
+passed_marker="$(git -C "$project_dir" rev-parse --absolute-git-dir)/agents-stop-gate-passed"
+if [[ -e "$passed_marker" && "$(<"$passed_marker")" == "$fingerprint" ]]; then
+    exit 0
+fi
+
+state_dir="${TMPDIR:-/tmp}/agents-stop-gate"
+mkdir -p "$state_dir"
+counter="$state_dir/$session_id"
+
+# stdout and stderr are merged on purpose: the agent needs the whole report.
+if output="$(cd "$project_dir" && bash "$checks" 2>&1)"; then
+    rm -f "$counter"
+    echo "$fingerprint" >"$passed_marker"
+    exit 0
+fi
+
+blocks=0
+[[ -e "$counter" ]] && blocks="$(<"$counter")"
+blocks=$((blocks + 1))
+echo "$blocks" >"$counter"
+
+if ((blocks > MAX_BLOCKS)); then
+    rm -f "$counter"
+    jq -n --arg message "stop-gate: checks still fail after $MAX_BLOCKS attempts, letting the agent stop. Run $checks to see why." \
+        '{systemMessage: $message}'
+    exit 0
+fi
+
+{
+    echo "Checks failed (attempt $blocks of $MAX_BLOCKS). Fix the cause, then finish."
+    echo "Ran: $checks"
+    echo
+    tail -n "$OUTPUT_LINES" <<<"$output"
+} >&2
+exit 2

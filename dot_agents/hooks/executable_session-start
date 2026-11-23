@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# SessionStart hook: print the personal instructions for this project.
+# The harness adds stdout to the agent's context.
+set -euo pipefail
+
+source "${BASH_SOURCE[0]%/*}/lib.sh"
+require_command jq
+
+input="$(cat)"
+project_dir="$(hook_field "$input" cwd)"
+[[ -n "$project_dir" ]] || { echo "session-start: hook input has no cwd" >&2; exit 1; }
+
+overlay="$(overlay_dir "$project_dir")" || exit 0
+instructions="$overlay/AGENTS.md"
+[[ -e "$instructions" ]] || exit 0
+
+echo "Personal instructions for this project, from $instructions:"
+echo
+cat "$instructions"
