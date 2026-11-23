@@ -1,0 +1,12 @@
+{{- /*
+  Render a JSON settings file, merged with a private fragment when one exists.
+  Arguments: home (home directory), base (rendered JSON text), fragment (path
+  inside ~/repos/dotfiles-work). Private keys win, and a private array replaces the
+  whole array. Without a fragment the base is written unchanged.
+*/ -}}
+{{- $fragment := joinPath .home "repos/dotfiles-work" .fragment -}}
+{{- if stat $fragment -}}
+{{ mergeOverwrite (fromJsonc .base) (include $fragment | fromJsonc) | toPrettyJson }}
+{{- else -}}
+{{ .base }}
+{{- end -}}

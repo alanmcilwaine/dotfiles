@@ -1,0 +1,21 @@
+[user]
+	name = Alan McIlwaine
+	email = alan.j.mcilwaine@gmail.com
+[push]
+	autoSetupRemote = true
+
+# Private additions for this machine, when the private dotfiles are present.
+# Git skips this include when the file is missing.
+[include]
+	path = ~/repos/dotfiles-work/gitconfig
+
+# My own repositories keep the personal identity, whatever the private config
+# sets as this machine's default. These must stay after the include above.
+[includeIf "hasconfig:remote.*.url:https://github.com/alanmcilwaine/**"]
+	path = ~/.gitconfig-personal
+[includeIf "hasconfig:remote.*.url:git@github.com:alanmcilwaine/**"]
+	path = ~/.gitconfig-personal
+[includeIf "gitdir:~/.local/share/chezmoi/"]
+	path = ~/.gitconfig-personal
+[includeIf "gitdir:~/personal/"]
+	path = ~/.gitconfig-personal

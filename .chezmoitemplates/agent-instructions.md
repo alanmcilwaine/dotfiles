@@ -1,3 +1,14 @@
+{{- /*
+  Shared instructions for every agent harness. Private dotfiles can change them:
+    ~/repos/dotfiles-work/agents/AGENTS.replace.md   used instead of the text below
+    ~/repos/dotfiles-work/agents/AGENTS.md           added after the text below
+*/ -}}
+{{- $private := joinPath .chezmoi.homeDir "repos/dotfiles-work/agents" -}}
+{{- $replacement := joinPath $private "AGENTS.replace.md" -}}
+{{- $addition := joinPath $private "AGENTS.md" -}}
+{{- if stat $replacement -}}
+{{ include $replacement }}
+{{- else -}}
 # Shared agent instructions
 
 - Prefer simple solutions and close-to-default configurations.
@@ -36,3 +47,7 @@ Design-time defaults. Apply when architecting, scoping or reviewing a system:
 Please don't modify the README. They should be human written.
 
 Thank you for collaborating and listening to my feedback and instructions.
+{{ if stat $addition }}
+{{ include $addition }}
+{{- end }}
+{{- end -}}
