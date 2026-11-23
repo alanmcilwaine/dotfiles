@@ -18,7 +18,7 @@
   "enableSpaceControlAnimations" : true,
   "enableSpaceControlTilesAnimations" : true,
   "enableSwipeGestures" : true,
-  "enableWorkspaceSwitcher" : true,
+  "enableWorkspaceSwitcher" : false,
   "enableWorkspaceTransitions" : false,
   "focusFrontmostWindow" : false,
   "keepUnassignedAppsOnSwitch" : false,

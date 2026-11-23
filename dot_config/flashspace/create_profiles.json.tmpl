@@ -1,0 +1,7 @@
+{{- /* Starting workspaces. The private layer's profiles replace the personal ones when present. */ -}}
+{{- $private := joinPath .chezmoi.homeDir "repos/dotfiles-work/flashspace/profiles.json" -}}
+{{- if stat $private -}}
+{{ include $private -}}
+{{- else -}}
+{{ template "flashspace/profiles.json" . -}}
+{{- end -}}

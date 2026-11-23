@@ -28,6 +28,11 @@ launch_domain="gui/$(id -u)"
 for label in local.caps-to-escape local.screenshot-clipboard; do
     if launchctl print "$launch_domain/$label" >/dev/null 2>&1; then
         launchctl bootout "$launch_domain/$label"
+        # bootout returns before a running agent has stopped, and bootstrap
+        # fails until it has.
+        while launchctl print "$launch_domain/$label" >/dev/null 2>&1; do
+            sleep 0.2
+        done
     fi
     launchctl bootstrap "$launch_domain" "$HOME/Library/LaunchAgents/$label.plist"
 done

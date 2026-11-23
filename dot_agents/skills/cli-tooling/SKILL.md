@@ -176,7 +176,7 @@ Prefer:
 - concise, direct instructions
 - practical defaults
 - humane CLI output
-- British English
+- New Zealand English
 - clean formatting
 - small composable parts
 
