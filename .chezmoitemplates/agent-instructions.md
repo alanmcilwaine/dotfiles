@@ -41,6 +41,13 @@ Design-time defaults. Apply when architecting, scoping or reviewing a system:
 - Deployment is a product capability. Works on-prem, private cloud and public cloud.
 - Ease of data access over data silos. Accessible data is valuable data.
 
+## Go
+
+- Before writing or reviewing Go, load and follow the `use-modern-go` skill.
+- Follow the Google Go Style Guide at https://google.github.io/styleguide/go/. A repository's own rules come before it. Settle a question of Go style from the guide before asking me.
+- I depart from the guide in two places:
+  - Write a doc comment only on an exported function or method. Write no other comment, including package comments and comments that explain why.
+  - Never define a variable inside an `if` condition. Assign it on the line above.
 
 ## Extras
 
