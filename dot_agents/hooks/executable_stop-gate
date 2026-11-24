@@ -12,13 +12,18 @@ readonly OUTPUT_LINES=60
 # Hash the commit, the uncommitted changes and the untracked files, so the
 # checks run once for each distinct state of the working tree. A repository
 # with no commit yet is identified by its untracked files alone.
+#
+# Everything runs from the top of the working tree. The agent may stop inside
+# a subdirectory, where git lists untracked files relative to that directory
+# and git hash-object reads them relative to the top.
 working_tree_fingerprint() {
-    local dir="$1"
+    local top
+    top="$(git -C "$1" rev-parse --show-toplevel)"
     {
-        git -C "$dir" rev-parse --verify HEAD
-        git -C "$dir" diff HEAD
-        git -C "$dir" ls-files --others --exclude-standard
-        (cd "$dir" && git ls-files --others --exclude-standard | git hash-object --stdin-paths)
+        git -C "$top" rev-parse --verify HEAD
+        git -C "$top" diff HEAD
+        git -C "$top" ls-files --others --exclude-standard
+        (cd "$top" && git ls-files --others --exclude-standard | git hash-object --stdin-paths)
     } 2>/dev/null | shasum -a 256 | cut -d ' ' -f 1
 }
 
