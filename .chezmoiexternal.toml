@@ -18,3 +18,10 @@
     url = "https://github.com/Astro-Han/karpathy-llm-wiki/archive/refs/heads/main.tar.gz"
     stripComponents = 1
     refreshPeriod = "168h"
+
+[".agents/skills/socratic-tutor"]
+    type = "archive"
+    url = "https://github.com/janestreet/agent_skills/archive/refs/heads/master.tar.gz"
+    stripComponents = 2
+    include = ["*/socratic-tutor/**"]
+    refreshPeriod = "168h"
