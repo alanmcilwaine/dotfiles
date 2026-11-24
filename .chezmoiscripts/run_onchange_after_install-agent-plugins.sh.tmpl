@@ -1,0 +1,23 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/bin/bash
+# Installs the agent plugins every machine should have. Each harness records
+# an installed plugin in its own settings, so this runs again only when the
+# list below changes. A failure is printed and does not stop chezmoi.
+set -uo pipefail
+
+if command -v claude >/dev/null; then
+    claude plugin marketplace add JetBrains/go-modern-guidelines
+    claude plugin install modern-go-guidelines@goland-claude-marketplace
+    claude plugin marketplace add GoogleChrome/modern-web-guidance
+    claude plugin install modern-web-guidance@googlechrome
+fi
+
+if command -v codex >/dev/null; then
+    codex plugin marketplace add JetBrains/go-modern-guidelines
+    codex plugin add modern-go-guidelines@goland-codex-marketplace
+    codex plugin marketplace add GoogleChrome/modern-web-guidance
+    codex plugin add modern-web-guidance@googlechrome
+fi
+
+exit 0
+{{ end -}}
