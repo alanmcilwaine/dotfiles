@@ -8,6 +8,26 @@ require_command jq
 
 readonly MAX_BLOCKS=3
 readonly OUTPUT_LINES=60
+readonly STATE_DIR="${TMPDIR:-/tmp}/agents-stop-gate"
+
+# Claude Code treats a hook that crashes as passed and shows the agent nothing,
+# so a bug in this script would skip the checks without a trace. A crash blocks
+# the stop once for each session and tells the agent to report it.
+report_crash() {
+    local line="$1" reported="$STATE_DIR/${session_id:-unknown}.crashed"
+    mkdir -p "$STATE_DIR"
+    if [[ -e "$reported" ]]; then
+        exit 0
+    fi
+    touch "$reported"
+    {
+        echo "stop-gate: the gate itself failed at line $line, so the project's checks did not run."
+        echo "This is a bug in the gate and not in your work. Do not try to fix it."
+        echo "Say in your final reply that the checks did not run and give this message."
+    } >&2
+    exit 2
+}
+trap 'report_crash "$LINENO"' ERR
 
 # Hash the commit, the uncommitted changes and the untracked files, so the
 # checks run once for each distinct state of the working tree. A repository
@@ -43,9 +63,8 @@ if [[ -e "$passed_marker" && "$(<"$passed_marker")" == "$fingerprint" ]]; then
     exit 0
 fi
 
-state_dir="${TMPDIR:-/tmp}/agents-stop-gate"
-mkdir -p "$state_dir"
-counter="$state_dir/$session_id"
+mkdir -p "$STATE_DIR"
+counter="$STATE_DIR/$session_id"
 
 # stdout and stderr are merged on purpose: the agent needs the whole report.
 if output="$(cd "$project_dir" && bash "$checks" 2>&1)"; then
