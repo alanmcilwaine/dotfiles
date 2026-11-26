@@ -41,6 +41,11 @@ Design-time defaults. Apply when architecting, scoping or reviewing a system:
 - Deployment is a product capability. Works on-prem, private cloud and public cloud.
 - Ease of data access over data silos. Accessible data is valuable data.
 
+## Showing code
+
+- When you describe a change or present options, show the code. I read code more easily than a description of it. For each option, show the lines that would differ, such as the type, the function signature and its call site, or the request and the response. Keep the words to what the code cannot show, such as cost and risk.
+- When we plan work that needs new interfaces, structs or functions, show those first, as code, with how they call each other. I decide the design of the interfaces before the logic inside them.
+
 ## Go
 
 - Before writing or reviewing Go, load and follow the `use-modern-go` skill.
