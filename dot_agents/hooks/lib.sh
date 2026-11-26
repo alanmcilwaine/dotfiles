@@ -7,6 +7,7 @@
 # A project with no overlay skips both.
 
 readonly PRIVATE_ROOT="$HOME/repos/dotfiles-work"
+readonly STATE_DIR="${TMPDIR:-/tmp}/agents-stop-gate"
 
 require_command() {
     command -v "$1" >/dev/null || {
@@ -40,4 +41,22 @@ overlay_dir() {
     overlay="$PRIVATE_ROOT/agents/projects/$key"
     [[ -d "$overlay" ]] || return 1
     echo "$overlay"
+}
+
+# Hash the commit, the uncommitted changes and the untracked files, so the
+# checks run once for each distinct state of the working tree. A repository
+# with no commit yet is identified by its untracked files alone.
+#
+# Everything runs from the top of the working tree. The agent may stop inside
+# a subdirectory, where git lists untracked files relative to that directory
+# and git hash-object reads them relative to the top.
+working_tree_fingerprint() {
+    local top
+    top="$(git -C "$1" rev-parse --show-toplevel)"
+    {
+        git -C "$top" rev-parse --verify HEAD
+        git -C "$top" diff HEAD
+        git -C "$top" ls-files --others --exclude-standard
+        (cd "$top" && git ls-files --others --exclude-standard | git hash-object --stdin-paths)
+    } 2>/dev/null | shasum -a 256 | cut -d ' ' -f 1
 }

@@ -11,6 +11,17 @@ project_dir="$(hook_field "$input" cwd)"
 [[ -n "$project_dir" ]] || { echo "session-start: hook input has no cwd" >&2; exit 1; }
 
 overlay="$(overlay_dir "$project_dir")" || exit 0
+
+# Record the state of the working tree the session starts from, so the stop
+# gate can tell a session that changed nothing. This hook also runs when a
+# session resumes or its context is compacted, and the first record stands.
+session_id="$(hook_field "$input" session_id)"
+started_from="$STATE_DIR/$session_id.start"
+if [[ -n "$session_id" && ! -e "$started_from" \
+    && "$(git -C "$project_dir" rev-parse --is-inside-work-tree 2>/dev/null)" == true ]]; then
+    mkdir -p "$STATE_DIR"
+    working_tree_fingerprint "$project_dir" >"$started_from"
+fi
 instructions="$overlay/AGENTS.md"
 [[ -e "$instructions" ]] || exit 0
 

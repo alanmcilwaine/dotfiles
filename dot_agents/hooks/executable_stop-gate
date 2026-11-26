@@ -8,7 +8,6 @@ require_command jq
 
 readonly MAX_BLOCKS=3
 readonly OUTPUT_LINES=60
-readonly STATE_DIR="${TMPDIR:-/tmp}/agents-stop-gate"
 
 # Claude Code treats a hook that crashes as passed and shows the agent nothing,
 # so a bug in this script would skip the checks without a trace. A crash blocks
@@ -28,24 +27,6 @@ report_crash() {
     exit 2
 }
 trap 'report_crash "$LINENO"' ERR
-
-# Hash the commit, the uncommitted changes and the untracked files, so the
-# checks run once for each distinct state of the working tree. A repository
-# with no commit yet is identified by its untracked files alone.
-#
-# Everything runs from the top of the working tree. The agent may stop inside
-# a subdirectory, where git lists untracked files relative to that directory
-# and git hash-object reads them relative to the top.
-working_tree_fingerprint() {
-    local top
-    top="$(git -C "$1" rev-parse --show-toplevel)"
-    {
-        git -C "$top" rev-parse --verify HEAD
-        git -C "$top" diff HEAD
-        git -C "$top" ls-files --others --exclude-standard
-        (cd "$top" && git ls-files --others --exclude-standard | git hash-object --stdin-paths)
-    } 2>/dev/null | shasum -a 256 | cut -d ' ' -f 1
-}
 
 input="$(cat)"
 project_dir="$(hook_field "$input" cwd)"
@@ -69,6 +50,14 @@ fi
 fingerprint="$(working_tree_fingerprint "$project_dir")"
 passed_marker="$(git -C "$project_dir" rev-parse --absolute-git-dir)/agents-stop-gate-passed"
 if [[ -e "$passed_marker" && "$(<"$passed_marker")" == "$fingerprint" ]]; then
+    exit 0
+fi
+
+# A session that has changed nothing, such as one that only answered a
+# question, is not held to findings that were in the working tree before it
+# began. The SessionStart hook recorded the state the session started from.
+started_from="$STATE_DIR/$session_id.start"
+if [[ -e "$started_from" && "$(<"$started_from")" == "$fingerprint" ]]; then
     exit 0
 fi
 
