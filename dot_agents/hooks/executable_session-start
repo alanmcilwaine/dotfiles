@@ -20,7 +20,7 @@ started_from="$STATE_DIR/$session_id.start"
 if [[ -n "$session_id" && ! -e "$started_from" \
     && "$(git -C "$project_dir" rev-parse --is-inside-work-tree 2>/dev/null)" == true ]]; then
     mkdir -p "$STATE_DIR"
-    working_tree_fingerprint "$project_dir" >"$started_from"
+    working_tree_fingerprint "$project_dir" "$overlay" >"$started_from"
 fi
 instructions="$overlay/AGENTS.md"
 [[ -e "$instructions" ]] || exit 0

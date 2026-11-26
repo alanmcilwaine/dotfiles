@@ -4,35 +4,55 @@
 set -euo pipefail
 
 source "${BASH_SOURCE[0]%/*}/lib.sh"
-require_command jq
 
 readonly MAX_BLOCKS=3
-readonly OUTPUT_LINES=60
+readonly OUTPUT_LINES=150
+readonly LOG="${XDG_STATE_HOME:-$HOME/.local/state}/agents/stop-gate.log"
+
+# One line for each time the gate ran the checks or could not, so a stop that
+# was let through without a pass leaves a record.
+record() {
+    mkdir -p "${LOG%/*}"
+    printf '%s\t%s\t%s\t%s\n' "$(date '+%Y-%m-%d %H:%M')" "${session_id:-unknown}" "${project_dir:-unknown}" "$1" >>"$LOG"
+}
+
+tell_human() {
+    jq -n --arg message "$1" '{systemMessage: $message}'
+}
 
 # Claude Code treats a hook that crashes as passed and shows the agent nothing,
-# so a bug in this script would skip the checks without a trace. A crash blocks
-# the stop once for each session and tells the agent to report it.
+# so a bug in this script would skip the checks without a trace. The first
+# crash in a session blocks the stop and tells the agent to report it. A second
+# block could hold the agent in a gate that cannot pass, so later crashes let
+# the stop through and tell the human each time.
 report_crash() {
-    local line="$1" reported="$STATE_DIR/${session_id:-unknown}.crashed"
+    trap - ERR
+    local reason="$1" reported="$STATE_DIR/${session_id:-unknown}.crashed"
     mkdir -p "$STATE_DIR"
+    record "the gate failed: $reason"
     if [[ -e "$reported" ]]; then
+        if command -v jq >/dev/null; then
+            tell_human "stop-gate: the gate itself failed again ($reason), so the project's checks did not run."
+        fi
         exit 0
     fi
     touch "$reported"
     {
-        echo "stop-gate: the gate itself failed at line $line, so the project's checks did not run."
+        echo "stop-gate: the gate itself failed ($reason), so the project's checks did not run."
         echo "This is a bug in the gate and not in your work. Do not try to fix it."
         echo "Say in your final reply that the checks did not run and give this message."
     } >&2
     exit 2
 }
-trap 'report_crash "$LINENO"' ERR
+trap 'report_crash "line $LINENO"' ERR
+
+command -v jq >/dev/null || report_crash "jq is not installed"
 
 input="$(cat)"
 project_dir="$(hook_field "$input" cwd)"
 session_id="$(hook_field "$input" session_id)"
-[[ -n "$project_dir" ]] || { echo "stop-gate: hook input has no cwd" >&2; exit 1; }
-[[ -n "$session_id" ]] || { echo "stop-gate: hook input has no session_id" >&2; exit 1; }
+[[ -n "$project_dir" ]] || report_crash "the hook input has no cwd"
+[[ -n "$session_id" ]] || report_crash "the hook input has no session_id"
 
 overlay="$(overlay_dir "$project_dir")" || exit 0
 checks="$overlay/checks.sh"
@@ -42,12 +62,12 @@ checks="$overlay/checks.sh"
 # worktrees. That folder has no working tree to check, and saying so keeps the
 # skipped checks visible.
 if [[ "$(git -C "$project_dir" rev-parse --is-inside-work-tree 2>/dev/null)" != true ]]; then
-    jq -n --arg message "stop-gate: $project_dir is not a working tree, so the project's checks did not run. Run $checks from the worktree that holds the change." \
-        '{systemMessage: $message}'
+    record "not a working tree, so the checks did not run"
+    tell_human "stop-gate: $project_dir is not a working tree, so the project's checks did not run. Run $checks from the worktree that holds the change."
     exit 0
 fi
 
-fingerprint="$(working_tree_fingerprint "$project_dir")"
+fingerprint="$(working_tree_fingerprint "$project_dir" "$overlay")"
 passed_marker="$(git -C "$project_dir" rev-parse --absolute-git-dir)/agents-stop-gate-passed"
 if [[ -e "$passed_marker" && "$(<"$passed_marker")" == "$fingerprint" ]]; then
     exit 0
@@ -65,9 +85,17 @@ mkdir -p "$STATE_DIR"
 counter="$STATE_DIR/$session_id"
 
 # stdout and stderr are merged on purpose: the agent needs the whole report.
+# A checks.sh may end with a line "== summary" and one line for each check.
+# On a pass the human is shown those lines, so a check that was not applicable
+# and findings that do not block are seen and not thrown away.
 if output="$(cd "$project_dir" && bash "$checks" 2>&1)"; then
     rm -f "$counter"
     echo "$fingerprint" >"$passed_marker"
+    summary="$(awk 'found { print } /^== summary$/ { found = 1 }' <<<"$output" | paste -s -d ';' - | sed 's/;/; /g')"
+    record "passed${summary:+: $summary}"
+    if [[ -n "$summary" ]]; then
+        tell_human "stop-gate passed. $summary"
+    fi
     exit 0
 fi
 
@@ -78,11 +106,12 @@ echo "$blocks" >"$counter"
 
 if ((blocks > MAX_BLOCKS)); then
     rm -f "$counter"
-    jq -n --arg message "stop-gate: checks still fail after $MAX_BLOCKS attempts, letting the agent stop. Run $checks to see why." \
-        '{systemMessage: $message}'
+    record "let through with the checks still failing after $MAX_BLOCKS attempts"
+    tell_human "stop-gate: checks still fail after $MAX_BLOCKS attempts, letting the agent stop. Run $checks to see why."
     exit 0
 fi
 
+record "blocked, attempt $blocks of $MAX_BLOCKS"
 {
     echo "Checks failed (attempt $blocks of $MAX_BLOCKS). Fix the cause, then finish."
     echo "Ran: $checks"

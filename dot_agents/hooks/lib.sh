@@ -4,6 +4,7 @@
 # lives in the private dotfiles checkout, under the repository's origin URL:
 #   ~/repos/dotfiles-work/agents/projects/<host>/<owner>/<repo>/AGENTS.md   instructions
 #   ~/repos/dotfiles-work/agents/projects/<host>/<owner>/<repo>/checks.sh   gate run when the agent stops
+#   ~/repos/dotfiles-work/agents/projects/<host>/<owner>/<repo>/state.sh    optional, state the checks depend on
 # A project with no overlay skips both.
 
 readonly PRIVATE_ROOT="$HOME/repos/dotfiles-work"
@@ -47,16 +48,23 @@ overlay_dir() {
 # checks run once for each distinct state of the working tree. A repository
 # with no commit yet is identified by its untracked files alone.
 #
+# Checks can also depend on state outside the working tree, such as whether
+# the branch is pushed. An overlay names that state by printing it from
+# state.sh, and it joins the hash.
+#
 # Everything runs from the top of the working tree. The agent may stop inside
 # a subdirectory, where git lists untracked files relative to that directory
 # and git hash-object reads them relative to the top.
 working_tree_fingerprint() {
-    local top
+    local top overlay="${2:-}"
     top="$(git -C "$1" rev-parse --show-toplevel)"
     {
         git -C "$top" rev-parse --verify HEAD
         git -C "$top" diff HEAD
         git -C "$top" ls-files --others --exclude-standard
         (cd "$top" && git ls-files --others --exclude-standard | git hash-object --stdin-paths)
+        if [[ -n "$overlay" && -e "$overlay/state.sh" ]]; then
+            (cd "$top" && bash "$overlay/state.sh") || echo "state.sh failed"
+        fi
     } 2>/dev/null | shasum -a 256 | cut -d ' ' -f 1
 }

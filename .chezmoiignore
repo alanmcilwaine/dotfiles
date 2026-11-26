@@ -22,3 +22,4 @@ Library/Application Support/Code
 {{ if ne .chezmoi.os "darwin" }}
 Library
 {{ end }}
+tests
